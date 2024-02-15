@@ -1,0 +1,316 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+<link rel="stylesheet" href="{% static 'css/index-style.css' %}">
+
+
+<style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f2f2f2;
+    }
+
+    h1 {
+      text-align: center;
+      margin-top: 30px;
+      color: #333;
+    }
+
+    h2 {
+      text-align: center;
+      color: #555;
+    }
+
+    form {
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #333;
+    }
+
+    select, button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 16px;
+      box-sizing: border-box;
+    }
+
+    img {
+      vertical-align: middle;
+    }
+
+    option[selected] {
+      font-weight: bold;
+    }
+
+    button {
+      background-color: #007BFF;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    p {
+      text-align: center;
+      color: #555;
+    }
+
+    #price-display {
+    color: black;
+    }
+
+
+    #price-slider {
+        width: 80%;
+        margin: 20px auto;
+    }
+
+    #min-price, #max-price {
+        display: inline-block;
+        width: 50px;
+        text-align: center;
+        font-size: 14px;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var streamDropdown = document.getElementById('stream');
+        var courseDropdown = document.getElementById('course');
+        var typeDropdown = document.getElementById('type');
+        var priceDisplay = document.getElementById('price-display');
+        var priceSlider = document.getElementById('price-slider');
+        var minPriceElement = document.getElementById('min-price');
+        var maxPriceElement = document.getElementById('max-price');
+        var minPriceInput = document.getElementById('min-price-input');
+        var maxPriceInput = document.getElementById('max-price-input');
+
+
+        // Initial options for course and type dropdowns
+        var initialCourseOptions = Array.from(document.getElementById('course').options);
+        var initialTypeOptions = Array.from(document.getElementById('type').options);
+
+        streamDropdown.addEventListener('change', function () {
+            var selectedStreamId = streamDropdown.value;
+            var selectedCourseTypeId = typeDropdown.value;
+
+            // Filter courses based on selected stream
+            var filteredCourses = initialCourseOptions.filter(function (option) {
+                return (
+                    (option.getAttribute('data-stream') === selectedStreamId || option.value === '') &&
+                    (option.getAttribute('data-type') === selectedCourseTypeId || option.value === '')
+                );
+            });
+
+            // Update options in course dropdown
+            updateDropdownOptions(courseDropdown, filteredCourses);
+        });
+
+        typeDropdown.addEventListener('change', function () {
+                var selectedStreamId = streamDropdown.value;
+                var selectedCourseTypeId = typeDropdown.value;
+
+                // Filter courses based on selected stream and course type
+                var filteredCourses = initialCourseOptions.filter(function (option) {
+                    return (
+                        (option.getAttribute('data-stream') === selectedStreamId || option.value === '') &&
+                        (option.getAttribute('data-type') === selectedCourseTypeId || option.value === '')
+                    );
+                });
+
+                // Update options in course dropdown
+                updateDropdownOptions(courseDropdown, filteredCourses);
+            });
+        
+
+
+           courseDropdown.addEventListener('change', function () {
+            var selectedCourseId = courseDropdown.value;
+
+            fetch(`/get_course_prices/?course_id=${selectedCourseId}`)
+                .then(response => response.json())
+                .then(data => {
+                    updatePriceSlider(data.min_price, data.max_price);
+                    updateDisplayedValues(); // Update displayed values on course change
+                })
+                .catch(error => console.error('Error fetching course prices:', error));
+        });
+
+        priceSlider.addEventListener('input', function () {
+            updateDisplayedValues(); // Update displayed values as the slider moves
+        });
+
+        priceSlider.addEventListener('mousemove', function (event) {
+            // Display changing slider value while cursor is over the slider
+            updateDisplayedValuesOnHover(event);
+        });
+
+
+          
+        function updatePriceSlider(minPrice, maxPrice) {
+            // Update slider values
+            priceSlider.setAttribute('min', minPrice);
+            priceSlider.setAttribute('max', maxPrice);
+            priceSlider.value = minPrice;
+
+            // Display minimum and maximum values
+            minPriceElement.textContent = minPrice;
+            maxPriceElement.textContent = maxPrice;
+
+            minPriceInput.value = minPrice;
+            maxPriceInput.value = maxPrice;
+
+            
+
+        }
+
+        function updateDisplayedValues() {
+            // Update displayed values based on the slider position
+            priceDisplay.innerHTML = `Selected Price: ${priceSlider.value}`;
+        }
+
+        function updateDisplayedValuesOnHover(event) {
+            // Update displayed values while cursor is over the slider
+            var hoveredValue = event.target.value;
+            console.log('Updating displayed values on hover:', hoveredValue);
+            priceDisplay.innerHTML = `Selected Price: ${hoveredValue}`;
+            updateMinMaxInputFields(hoveredValue);
+        }
+
+        function updateMinMaxInputFields(value) {
+            document.getElementById('min-price-input').value = minPriceElement.textContent;
+            document.getElementById('max-price-input').value = value;
+        }
+
+
+
+
+        function updateDropdownOptions(dropdown, options) {
+            // Clear existing options
+            dropdown.innerHTML = '';
+
+            // Add new options
+            options.forEach(function (option) {
+                dropdown.appendChild(option.cloneNode(true));
+            });
+        }
+    });
+</script>
+
+<h1>MyStudy management system</h1>
+
+
+{% if featured_colleges %}
+    <h2 style="margin-top: 40px; margin-bottom: 30px;">Featured Colleges</h2>
+    <div class="featured-colleges">
+        <div class="row">
+            {% for college in featured_colleges %}
+                <div class="college">
+                    <img src="{{ college.logo.url }}" alt="{{ college.name }} Logo" width="100" height="100">
+                    <h3 style="margin-bottom:30px">{{ college.name }}</h3>
+                    <h2 style="margin-bottom:30px">{{college.location }}</h2>
+                    <!-- Add more details as needed -->
+                    <a href="{% url 'college_detail' college.id %}" class="view-details-btn">View Details</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
+
+
+
+<!-- Add a section for featured courses -->
+<div class="featured-courses" style="margin-top: 40px; margin-bottom: 100px;">
+    <h2>Featured Courses</h2>
+    <div class="course-container">
+        {% for course in featured_courses %}
+            <a href="{% url 'course_list' course.id %}" class="course">
+                <h3>{{ course.name }}</h3>
+                <p>{{ course.stream.name }}</p>
+                <!-- Add more details as needed -->
+            </a>
+        {% endfor %}
+    </div>
+</div>
+
+
+
+
+
+
+
+
+{% if message %}
+    <p>{{ message }}</p>
+{% else %}
+
+
+    <form method="GET" action="{% url 'college_list' %}">
+        <label for="stream">Stream:</label>
+        <select name="stream" id="stream">
+            <option value="" selected>Select Stream</option>
+            {% for stream in streams %}
+                <option value="{{ stream.id }}">
+                   
+                    {{ stream.name }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <label for="type">Type:</label>
+            <select name="type" id="type">
+                <option value="" data-stream="" selected>Select Type</option>
+                {% for course_type in course_types %}
+                    <option value="{{ course_type.id }}" data-stream="{{ course_type.stream.id }}">
+                        {{ course_type.name }}
+                    </option>
+                {% endfor %}
+            </select>
+
+        <label for="course">Course:</label>
+        <select name="course" id="course">
+            <option value="" data-stream="" data-type="" selected>Select Course</option>
+            {% for course in courses %}
+                <option value="{{ course.id }}" data-stream="{{ course.stream.id }}" data-type="{{ course.course_type.id }}">
+                    {{ course.name }}
+                </option>
+            {% endfor %}
+        </select>
+
+       
+
+        <label for="location">Location:</label>
+        <select name="location" id="location">
+            {% if domain_location_name %}
+                <option value="{{ domain_location.id }}" selected>{{ domain_location_name }}</option>
+            {% endif %}
+            {% for loc in remaining_locations %}
+                <option value="{{ loc.id }}">{{ loc.name }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Search</button>
+    </form>
+
+
+
+    
+
+
+{% endif %}
+
+{% endblock %}

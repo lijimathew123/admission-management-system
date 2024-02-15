@@ -1,0 +1,86 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/base-style.css' %}">
+    <title>Document</title>
+</head>
+<body>
+    <nav>
+        <nav>
+            <div class="banner">
+                <a href="#" class="logo">
+                    <img src="{% static 'images/reading-book.png' %}" alt="Your Logo" width="100" height="100">
+                </a>
+        
+               {% block banner %}
+
+
+                 {% include 'banner.html' %}
+
+               {% endblock %}
+            </div>
+
+
+            
+             
+        </nav>
+        
+
+    </nav>
+    {% block content%}
+
+    {% endblock %}
+    <footer class="footer">
+        <div class="footer-column">
+            <div class="logo-description">
+                <img src="{% static 'images/reading-book.png' %}" alt="Footer Logo" width="50" height="50">
+                <p>Mystudy is an innovative and comprehensive online learning platform designed to empower learners of all backgrounds and ages to embark on a journey of knowledge and skill acquisition.</p>
+                <div class="social-icons">
+                    <!-- Placeholder icons -->
+                    <a href="{% static 'images/facebook.png' %}">
+                        <img src="{% static 'images/facebook.png' %}" alt="Facebook Icon" width="30" height="30">
+                    </a>
+                    <a href="{% static 'images/instagram.png' %}">
+                        <img src="{% static 'images/instagram.png' %}" alt="Instagram Icon" width="30" height="30">
+                    </a>
+                    <a href="{% static 'images/twitter.png' %}">
+                        <img src="{% static 'images/twitter.png' %}" alt="Twitter Icon" width="30" height="30">
+                    </a>
+                </div>
+            </div>
+            
+        </div>
+    
+        <div class="footer-column">
+            <div class="footer-links">
+                <a href="{% url 'about' %}">About Us</a>
+                <a href="{% url 'address' %}">Contact Us</a>
+            </div>
+        </div>
+    
+        <div class="footer-column">
+            <div class="contact-info">
+                <div class="info-item">
+                    <img src="{% static 'images/phone-call.png' %}" alt="Phone Icon" width="20" height="20">
+                    <p>123-456-7890</p>
+                </div>
+                <div class="info-item">
+                    <img src="{% static 'images/email.png' %}" alt="Email Icon" width="20" height="20">
+                    <p>info@example.com</p>
+                </div>
+                <div class="info-item">
+                    <img src="{% static 'images/location.png' %}" alt="Address Icon" width="20" height="20">
+                    <p>123 Main St, Cityville</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    
+</body>
+</html>

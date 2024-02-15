@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+
+{% block banner %}
+
+
+    
+{% endblock %}
+
+ 
+{% block content %}
+
+  <style>
+     .message-container {
+        text-align: center;
+        background-color: #ffeeba;
+        color: #856404;
+        border: 1px solid #ffc107;
+        border-radius: 4px;
+        padding: 10px;
+        margin: 20px 0;
+    }
+
+    h2 {
+        text-align: center;
+        color: #333;
+        margin-top: 20px;
+    }
+
+    div {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    h3 {
+        color: #007BFF;
+    }
+
+    p {
+        color: #555;
+    }
+
+    a {
+        display: inline-block;
+        padding: 8px 16px;
+        background-color: #007BFF;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 4px;
+        margin-top: 10px;
+    }
+
+    a:hover {
+        background-color: #0056b3;
+    }
+
+    .tabs {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 20px;
+    }
+
+    .tab {
+        background-color: #007BFF;
+        color: #fff;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .tab:hover {
+        background-color: #0056b3;
+    }
+  </style>
+
+{% if message %}
+<div class="message-container">
+  <p>{{ message }}</p>
+
+</div>
+ 
+{% else %}
+
+<div class="tabs">
+  <div class="tab">Stream: {{ selected_stream.name }}</div>
+  <div class="tab">Type: {{ selected_course_type.name }}</div>
+  <div class="tab">Course: {{ selected_course.name }}</div>
+  <div class="tab">Location: {{ selected_location.name }}</div>
+</div>
+
+
+
+    <h2>{{ selected_course_type.name }} {{ selected_course.name }}</h2>
+
+    {% for college_price in college_prices %}
+      <div>
+        <img src="{{ college_price.college.logo.url }}" alt="{{ college_price.college.name }} Logo" width="100" height="100">
+      
+        <h3>{{ college_price.college.name }}</h3>
+        <p>Description: {{ college_price.college.description|safe }}</p>
+        <p>Address: {{ college_price.college.address|safe }}</p>
+        <p>Phone: {{ college_price.college.phone }}</p>
+        <p>Email: {{ college_price.college.email }}</p>
+        {% if college_price.price %}
+            <p>Course Price: {{ college_price.price }}</p>
+        {% endif %}
+
+       
+    {% if selected_course %}
+        <!-- If a course is selected, pass both college_id and course_id -->
+        <a href="{% url 'college_details' college_price.college.id selected_course.id %}">View More</a>
+    {% else %}
+        <!-- If no course is selected, pass only college_id -->
+        <a href="{% url 'college_detail' college_price.college.id %}">View More</a>
+    {% endif %}
+
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endblock %}

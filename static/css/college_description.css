@@ -1,0 +1,65 @@
+
+.college-details {
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.college-header {
+    text-align: center;
+}
+
+.college-header img {
+    border-radius: 50%;
+}
+
+h2 {
+    color: #333;
+}
+
+.tabs {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.tablinks {
+    background-color: #007BFF;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.tablinks:hover {
+    background-color: #0056b3;
+}
+
+.tabcontent {
+    padding: 20px;
+    border-top: 2px solid #007BFF;
+    display: none;
+}
+
+.tabcontent p {
+    color: #333;
+}
+
+.tabcontent ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.tabcontent li {
+    margin-bottom: 10px;
+}
+
+.tabcontent h3 {
+    color: #030303;
+}

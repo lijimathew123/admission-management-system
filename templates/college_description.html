@@ -1,0 +1,89 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+{% block banner %}
+
+
+    
+{% endblock %}
+
+
+
+
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/college_description.css' %}">
+    <title>{{ college.name }} - College Details</title>
+</head>
+<body>
+    <div class="college-details">
+        <div class="college-header">
+            <img src="{{ college.logo.url }}" alt="{{ college.name }} Logo" width="100" height="100">
+            <h2>{{ college.name }}</h2>
+           
+            <p>{{ college.description|safe}}</p>
+            <p><strong>Website:</strong> <a href="{{ college.website }}" target="_blank">{{ college.website }}</a></p>
+        </div>
+
+        <div class="tabs">
+            <button class="tablinks" onclick="openTab(event, 'overview')" id="defaultTab">Overview</button>
+            <button class="tablinks" onclick="openTab(event, 'affiliation')">Affiliation</button>
+            <button class="tablinks" onclick="openTab(event, 'courses')">Courses</button>
+            <button class="tablinks" onclick="openTab(event, 'admission')">Admission</button>
+            <button class="tablinks" onclick="openTab(event, 'contact')">Contact</button>
+        </div>
+
+        <div id="overview" class="tabcontent">
+            <!-- Overview Content -->
+            <p><strong></strong> {{ college.overview|safe }}</p>
+            <p><strong>Location:</strong> {{ college.location.name }}</p>
+            <!-- Add more overview content as needed -->
+        </div>
+
+        <div id="affiliation" class="tabcontent">
+            <!-- Affiliation Content -->
+            <p>{{ college.affiliation|safe }}</p>
+         
+        </div>
+
+        <div id="courses" class="tabcontent">
+            <!-- Courses Content -->
+            <h3 >Courses Offered</h3>
+            <ul>
+                {% for course in college_courses %}
+                    <li>
+                        <strong>Stream:</strong> {{ course.course.stream.name }}<br><br>
+                        <strong>Course Type:</strong> {{ course.course.course_type.name }}<br><br>
+                        <strong>Course:</strong> {{ course.course.name }}<br><br>
+                        <strong>Price:</strong> {{ course.price }}<br><br>
+                        <strong>Eligibility:</strong> {{ course.eligibility|safe }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div id="admission" class="tabcontent">
+            
+                 <p>{{ college.admission|safe }}</p>
+            
+        </div>
+
+        <div id="contact" class="tabcontent">
+           
+            <p><strong>Address </strong> {{ college.address|safe }}</p>
+            <p><strong>Email:</strong> {{ college.email }}</p>
+            <p><strong>Phone:</strong> {{ college.phone }}</p>
+           
+        </div>
+    </div>
+
+    <script src="{% static 'js/college_description.js' %}"></script>
+</body>
+</html>
+{% endblock %}

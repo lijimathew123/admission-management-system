@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+{% block banner %}
+
+
+    
+{% endblock %}
+
+{% load static %}
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/about.css' %}">
+    <title>About Us</title>
+</head>
+
+<body>
+    <header>
+        <h1>About Us</h1>
+    </header>
+
+    <section class="main-content">
+        <div class="about-image">
+            <img src="{% static 'images/mystudy.jpg' %}" alt="About Us Image">
+        </div>
+
+        <div class="about-text">
+            <p>Welcome to the vibrant world of CollegeInfo! We're on a mission to simplify your college exploration
+                journey. Our platform is your go-to resource for discovering exciting educational opportunities and
+                making informed decisions.</p>
+
+            <p>At CollegeInfo, we believe that every student deserves a path to success. Our team is dedicated to
+                providing valuable insights, expert advice, and a user-friendly experience to help you navigate the
+                diverse landscape of colleges and courses.</p>
+
+            <p>Embark on a journey of discovery with CollegeInfo. Uncover the possibilities, unlock your potential, and
+                take the next step towards a bright academic future.</p>
+        </div>
+    </section>
+
+
+</body>
+</html>
+
+{% endblock %}

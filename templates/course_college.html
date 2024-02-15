@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% block banner %}
+
+
+    
+{% endblock %}
+
+
+
+<style>
+    h1 {
+        color: #333; /* Set the color to dark gray */
+        text-align: center;
+    }
+
+    ul {
+        list-style: none; /* Remove bullet points from the list */
+        padding: 0;
+    }
+
+    li {
+        border: 1px solid #ddd; /* Add a border to each list item */
+        margin: 10px 0;
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    img {
+        border-radius: 50%; /* Make the images round */
+        margin-right: 10px;
+    }
+
+    a {
+        color: #007BFF; /* Set the link color to blue */
+        text-decoration: none;
+        display: inline-block;
+        padding: 5px 10px;
+        background-color: #007BFF;
+        color: #fff;
+        border-radius: 5px;
+    }
+
+    a:hover {
+        background-color: #0056b3; /* Darker blue on hover */
+        text-decoration: none;
+    }
+
+
+    p{
+        padding-left: 10px;
+    }
+</style>
+
+
+    <h1>Colleges offering {{ stream_name }}</h1>
+    <ul>
+        {% for college in colleges %}
+            <li>
+                <img src="{{ college.logo.url }}" alt="logo here" width="50" height="50" >
+                <h2>{{ college.name }}</h2>
+                <p>{{ college.description|safe }}</p>
+                <p>{{ college.phone }}</p>
+                <p>{{ college.email }}</p>
+                <p>{{ college.website}}</p>
+                
+            </li>
+            <a href="{% url 'college_detail' college.id %}">View More</a>
+
+        {% endfor %}
+    </ul>
+{% endblock %}

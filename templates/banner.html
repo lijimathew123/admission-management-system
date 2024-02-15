@@ -1,0 +1,164 @@
+{% block banner %}
+{% load static %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+
+
+<link rel="stylesheet" href="{% static 'css/banner.css' %}">
+
+<div class="banner-container">
+
+
+
+    <div class="search-bar">
+        <input type="text" id="search-input" placeholder="Search...">
+        <button type="submit">Search</button>
+        <div id="suggestions-container"></div>
+    </div>
+    
+
+    
+</div>
+
+<div class="review-info">
+    <p><i class="fas fa-star"></i> 4.8 review</p>
+    <p><i class="fas fa-headset"></i> 24*4 Support</p>
+</div>
+
+
+<!-- <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var searchInput = document.getElementById('search-input');
+        var suggestionsContainer = document.getElementById('suggestions-container');
+
+        searchInput.addEventListener('input', function () {
+            var inputValue = searchInput.value.trim();
+
+            // Clear previous suggestions
+            suggestionsContainer.innerHTML = '';
+
+            if (inputValue.length >= 2) {
+                // Make a request to your Django view to get suggestions
+                // You can implement a Django view to return suggestions based on the input
+                fetch(`/get_suggestions/?query=${inputValue}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Render suggestions
+                        data.forEach(suggestion => {
+                            var suggestionElement = document.createElement('div');
+                            suggestionElement.innerHTML = `<p>${suggestion.name} - ${suggestion.type}</p>`;
+                            suggestionElement.classList.add('suggestion');
+
+                            suggestionElement.addEventListener('click', function () {
+                                // Redirect to the corresponding page when suggestion is clicked
+                                window.location.href = suggestion.url;
+                            });
+
+                            suggestionsContainer.appendChild(suggestionElement);
+                        });
+                    })
+                    .catch(error => console.error('Error fetching suggestions:', error));
+            }
+        });
+
+        // Close suggestions when clicking outside the input
+        document.addEventListener('click', function (event) {
+            if (!searchInput.contains(event.target)) {
+                suggestionsContainer.innerHTML = '';
+            }
+        });
+
+        // Helper function to get the appropriate icon based on suggestion type
+        function getIcon(type) {
+            switch (type) {
+                case 'College':
+                    return '<i class="fas fa-graduation-cap"></i>'; // Add the icon for College
+                case 'Stream':
+                    return '<i class="fas fa-water"></i>'; // Add the icon for Stream
+                case 'Course':
+                    return '<i class="fas fa-book"></i>'; // Add the icon for Course
+                case 'Location':
+                    return '<i class="fas fa-map-marker-alt"></i>'; // Add the icon for Location
+                default:
+                    return '';
+            }
+        }
+    });
+
+
+
+
+  
+
+</script> -->
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var searchInput = document.getElementById('search-input');
+        var suggestionsContainer = document.getElementById('suggestions-container');
+
+        searchInput.addEventListener('input', function () {
+            var inputValue = searchInput.value.trim();
+
+            // Clear previous suggestions
+            suggestionsContainer.innerHTML = '';
+
+            if (inputValue.length >= 2) {
+                // Make a request to your Django view to get suggestions
+                
+                fetch(`/get_suggestions/?query=${inputValue}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Render suggestions
+                        data.forEach(suggestion => {
+                            var suggestionElement = document.createElement('div');
+                            suggestionElement.innerHTML = `
+                                <p>
+                                    ${getIcon(suggestion.type)} <!-- Call the getIcon function -->
+                                    ${suggestion.name} - ${suggestion.type}
+                                </p>`;
+                            suggestionElement.classList.add('suggestion');
+
+                            suggestionElement.addEventListener('click', function () {
+                                // Redirect to the corresponding page when suggestion is clicked
+                                window.location.href = suggestion.url;
+                            });
+
+                            suggestionsContainer.appendChild(suggestionElement);
+                        });
+                    })
+                    .catch(error => console.error('Error fetching suggestions:', error));
+            }
+        });
+
+        // Close suggestions when clicking outside the input
+        document.addEventListener('click', function (event) {
+            if (!searchInput.contains(event.target)) {
+                suggestionsContainer.innerHTML = '';
+            }
+        });
+
+        // Helper function to get the appropriate icon based on suggestion type
+        function getIcon(type) {
+            switch (type) {
+                case 'College':
+                    return '<i class="fas fa-graduation-cap"></i>'; // Add the icon for College
+                case 'Stream':
+                    return '<i class="fa-brands fa-discourse"></i>'; 
+                case 'Course':
+                    return '<i class="fas fa-book"></i>'; 
+                case 'Location':
+                    return '<i class="fas fa-map-marker-alt"></i>';
+                default:
+                    return '';
+            }  
+        }
+    });
+</script>
+
+
+
+
+
+{% endblock %}

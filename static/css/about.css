@@ -1,0 +1,32 @@
+
+
+header {
+    background-color: #4285f4;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+.main-content {
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.about-image img {
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.about-text {
+    max-width: 60%;
+    margin-left: 30px;
+}
+

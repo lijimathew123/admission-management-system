@@ -1,0 +1,44 @@
+
+header {
+    background-color: #5e95ee;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+.main-content {
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.contact-info {
+    max-width: 40%;
+}
+
+.contact-info h2 {
+    color: #4285f4;
+}
+
+.contact-info p {
+    margin: 10px 0;
+}
+
+.map-container {
+    max-width: 55%;
+}
+
+iframe {
+    width: 100%;
+    height: 300px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+
